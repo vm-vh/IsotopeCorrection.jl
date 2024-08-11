@@ -1,6 +1,7 @@
 module NaturalIsotopeCorrection
 
 export corrected_MID
+using DSP
 include("internal_functions.jl")
 
 """
