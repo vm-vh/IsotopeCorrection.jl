@@ -25,7 +25,7 @@ julia> corrected_MID(response_vec, "C3H3O3LabC3", tracer_purity = 0.99)
  0.08524115510867415
 ```
 """
-function corrected_MID(response::Vector, formula::String, tracer_purity = 1.0)
+function corrected_MID(response::Vector, formula::String; tracer_purity = 1.0)
     full_fragment_CM = fragment_CM(formula, tracer_purity)
     corrected_response = full_fragment_CM \ response
     return corrected_response ./ sum(corrected_response)

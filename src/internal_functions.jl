@@ -110,7 +110,7 @@ The correction matricies will be l+1 x l+1 with l being the total number of poss
 - `formula`: chemical formula of the fragment to be corrected.
 - `tracer_purity`: purity of the tracer, default is 1 (100%).
 """
-function fragment_CM(formula, tracer_purity = 1.0)
+function fragment_CM(formula; tracer_purity = 1.0)
     # create a dictionary from the chemical formula of the element
     elements = split(formula, r"[0-9]", keepempty = false)
     amounts = split(formula, r"[aA-zZ]", keepempty = false)
