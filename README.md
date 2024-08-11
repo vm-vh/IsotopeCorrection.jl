@@ -21,7 +21,8 @@ corrMID = corrected_MID(response_vec, chem_formula, tracer_purity = 0.99)
 ```
 The output will be a mass isotopomer distribution, corrected for the natural isotope abundances of the fragment's atoms.
 
-```julia
+```julia-repl
+julia> corrMID
 4-element Vector{Float64}:
  0.41527768234101536
  0.10640438947548786
