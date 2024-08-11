@@ -1,7 +1,7 @@
 module NaturalIsotopeCorrection
 
 export corrected_MID
-using DSP
+using DSP # needed for the convolution
 include("internal_functions.jl")
 
 """
