@@ -17,8 +17,12 @@ response_vec = [3500000, 1000000, 3500000, 800000]
 pyruvate_formula = "C3H3O3LabC3"
 
 # run th correction function, the tracer purity can be adjusted using a keyword argument
-corr_response, MID, mean_enrichment, residuum = isotope_correction(response, pyruvate_formula, tracer_purity = 0.99)
+corrected_response, corrected_MID, mean_enrichment, residuum = isotope_correction(response,
+                                                                                  pyruvate_formula,
+                                                                                  tracer_purity = 0.99)
 
 # the correction function can also be run without optimization
-corr_response, MID, mean_enrichment = isotope_correction(response, pyruvate_formula, optimization = false)
+corrected_response, corrected_MID, mean_enrichment = isotope_correction(response,
+                                                                        pyruvate_formula,
+                                                                        optimization = false)
 ```
