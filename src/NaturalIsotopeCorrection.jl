@@ -36,7 +36,8 @@ julia> corr_response, MID, mean_enrichment = isotope_correction(response, pyruva
 function isotope_correction(response, formula; tracer_purity = 1.0, optimization::Bool = true)
     CM = fragment_CM(formula, tracer_purity = tracer_purity)
     n = length(CM[1,:])
-    response = response[1:n]
+    trunc_response = response[1:(n > end ? end : n)]
+    trunc_CM = CM[1:length(trunc_response), 1:length(trunc_response)]
 
     if optimization == true
         # cost function used for optimization
@@ -47,18 +48,18 @@ function isotope_correction(response, formula; tracer_purity = 1.0, optimization
         end
         
         # the dimension of the problem
-        x = fill(Cdouble(0e0), n)
+        x = fill(Cdouble(0e0), length(trunc_response))
 
-        fout, corr_response = lbfgsb(λ -> cost_func(λ, (response, CM)...), x, lb=0, m=5, factr=1e7, pgtol=1e-5, iprint=-1, maxfun=15000, maxiter=15000)
+        fout, corr_response = lbfgsb(λ -> cost_func(λ, (trunc_response, trunc_CM)...), x, lb=0, m=5, factr=1e7, pgtol=1e-5, iprint=-1, maxfun=15000, maxiter=15000)
         corr_MID = corr_response ./ sum(corr_response)
 
-        residuum = [v/sum(response) for v in (response - CM * corr_response)]
+        residuum = [v/sum(trunc_response) for v in (trunc_response - trunc_CM * corr_response)]
         mean_enrichment = sum([i*corr_MID[i] for i in eachindex(corr_MID)])/n
 
         return corr_response, corr_MID, mean_enrichment, residuum
 
     else
-        corr_response = CM \ response
+        corr_response = trunc_CM \ response
         corr_MID = corr_response ./ sum(corr_response)
         mean_enrichment = sum([i*corr_MID[i] for i in eachindex(corr_MID)])/n
 
