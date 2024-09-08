@@ -8,7 +8,7 @@ A package for preforming natural isotope correction on LC-/GCMS data.
 
 ### Example
 ```julia
-using NaturalIsotopeCorrection.jl
+using NaturalIsotopeCorrection
 
 # define a response / measurement vector 
 response_vec = [3500000, 1000000, 3500000, 800000]
