@@ -1,7 +1,9 @@
+#push!(LOAD_PATH,"../src/")
+
 using NaturalIsotopeCorrection
 using Documenter
 
-DocMeta.setdocmeta!(NaturalIsotopeCorrection, :DocTestSetup, :(using NaturalIsotopeCorrection); recursive=true)
+#DocMeta.setdocmeta!(NaturalIsotopeCorrection, :DocTestSetup, :(using NaturalIsotopeCorrection); recursive=true)
 
 makedocs(;
     modules=[NaturalIsotopeCorrection],
@@ -17,7 +19,9 @@ makedocs(;
     ],
 )
 
-deploydocs(;
-    repo="github.com/vm-vh/NaturalIsotopeCorrection.jl",
-    devbranch="main",
+deploydocs(
+    repo = "github.com/vm-vh/NaturalIsotopeCorrection.jl.git",
+    target = "build",
+    branch = "gh-pages",
+    push_preview = false,
 )
