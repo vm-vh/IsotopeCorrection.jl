@@ -1,5 +1,4 @@
 #push!(LOAD_PATH,"../src/")
-
 using NaturalIsotopeCorrection
 using Documenter
 
@@ -7,13 +6,14 @@ using Documenter
 
 makedocs(;
     modules=[NaturalIsotopeCorrection],
+    clean = false,
     authors="Vincent M. von Häfen",
     sitename="NaturalIsotopeCorrection.jl",
-    format=Documenter.HTML(;
-        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl",
-        edit_link="main",
-        assets=String[],
+    format = Documenter.HTML(
+        ansicolor = true,
+        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/stable/",
     ),
+    linkcheck = false,
     pages=[
         "Home" => "index.md",
     ],
