@@ -15,7 +15,9 @@ makedocs(;
     ),
     linkcheck = false,
     pages=[
-        "Home" => "index.md",
+        "Examples" => "examples.jl",
+        "Background" => "background.md",
+        "Referances" => "index.md",
     ],
 )
 
