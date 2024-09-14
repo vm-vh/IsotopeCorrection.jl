@@ -1,5 +1,5 @@
 """
-    standard_element_MID(isotopes, element, N)
+    _standard_element_MID(isotopes, element, N)
 
 Outputs the classic standard mass isotopomer distribution (MID) for a fragment 
     with N atoms of the given element, using combinatorial probabilities.
@@ -11,7 +11,7 @@ Not to be used for atoms labeled through an isotope tracer experiment, e.g.
 - `element`: the element the standard MID should be computed for.
 - `N::Int`: the number atoms of the given element.
 """
-function standard_element_MID(isotopes::Dict, element, N::Int)
+function _standard_element_MID(isotopes::Dict, element, N::Int)
     # function to calculate a multinomial coefficient, n should be a number and k a vector
     multinomial_coef(n, k) = factorial(Int(n)) / cumprod(factorial.(Int.(k)))[end]
 
@@ -92,7 +92,7 @@ function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0)
     # unlabeled C and all other elements
     elseif l >= 0
         CM = Matrix{Float64}(undef, l + 1, 0)
-        standard_0 = vcat(standard_element_MID(isotope_NAs, element, N), zeros(Int64, 1, l)')
+        standard_0 = vcat(_standard_element_MID(isotope_NAs, element, N), zeros(Int64, 1, l)')
         for j = 0:l
             CM = hcat(CM, circshift(standard_0, j)[1:l+1])
         end
