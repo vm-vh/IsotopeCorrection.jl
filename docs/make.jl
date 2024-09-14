@@ -20,7 +20,7 @@ makedocs(;
     ),
     linkcheck = false,
     pages=[
-        "Examples" => "examples.md",
+        #"Examples" => "examples.md",
         "Background" => "background.md",
         "Referances" => "index.md",
     ],
