@@ -1,8 +1,11 @@
-#push!(LOAD_PATH,"../src/")
-using NaturalIsotopeCorrection
-using Documenter
+using Documenter, Literate, NaturalIsotopeCorrection
 
 #DocMeta.setdocmeta!(NaturalIsotopeCorrection, :DocTestSetup, :(using NaturalIsotopeCorrection); recursive=true)
+
+Literate.markdown(
+    "/home/vincent/Documents/science/NaturalIsotopeCorrection/docs/src/examples.jl",
+    repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
+)
 
 makedocs(;
     modules=[NaturalIsotopeCorrection],
@@ -11,11 +14,11 @@ makedocs(;
     sitename="NaturalIsotopeCorrection.jl",
     format = Documenter.HTML(
         ansicolor = true,
-        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/stable/",
+        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/dev/",
     ),
     linkcheck = false,
     pages=[
-        "Examples" => "examples.jl",
+        "Examples" => "examples.md",
         "Background" => "background.md",
         "Referances" => "index.md",
     ],
