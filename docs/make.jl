@@ -5,7 +5,7 @@ using Documenter, Literate, NaturalIsotopeCorrection
 example = sort(filter(x -> endswith(x, ".jl"), readdir(joinpath(@__DIR__, "src"))))
 
 Literate.markdown(
-    examples,
+    example,
     joinpath(@__DIR__, "src"),
     repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
 )
