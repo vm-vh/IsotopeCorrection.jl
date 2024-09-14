@@ -2,12 +2,12 @@ using Documenter, Literate, NaturalIsotopeCorrection
 
 #DocMeta.setdocmeta!(NaturalIsotopeCorrection, :DocTestSetup, :(using NaturalIsotopeCorrection); recursive=true)
 
-example = sort(filter(x -> endswith(x, ".jl"), readdir(joinpath(@__DIR__, "src"))))[1]
+#example = sort(filter(x -> endswith(x, ".jl"), readdir(joinpath(@__DIR__, "src"))))[1]
 
-Literate.markdown(
-    joinpath(@__DIR__, "src", example),
-    repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
-)
+#Literate.markdown(
+#    joinpath(@__DIR__, "src", example),
+#    repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
+#)
 
 makedocs(;
     modules=[NaturalIsotopeCorrection],
