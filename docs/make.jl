@@ -17,7 +17,7 @@ makedocs(;
     sitename="NaturalIsotopeCorrection.jl",
     format = Documenter.HTML(
         ansicolor = true,
-        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/stable/",
+        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/dev/",
     ),
     linkcheck = false,
     pages=[
