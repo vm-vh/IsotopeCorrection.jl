@@ -1,5 +1,4 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-LBFGSB = "5be7bae1-8223-5378-bac3-9e7378a2f6e6"
 Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
 NaturalIsotopeCorrection = "ada07ce9-609d-4543-9e41-2cdc42bc1f8f"

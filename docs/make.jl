@@ -2,12 +2,13 @@ using Documenter, Literate, NaturalIsotopeCorrection
 
 #DocMeta.setdocmeta!(NaturalIsotopeCorrection, :DocTestSetup, :(using NaturalIsotopeCorrection); recursive=true)
 
-#example = sort(filter(x -> endswith(x, ".jl"), readdir(joinpath(@__DIR__, "src"))))[1]
-
-#Literate.markdown(
-#    joinpath(@__DIR__, "src", example),
-#    repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
-#)
+#=
+Literate.markdown(
+    "examples.jl",
+    joinpath(@__DIR__, "src"),
+    repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
+)
+=#
 
 makedocs(;
     modules=[NaturalIsotopeCorrection],
@@ -16,13 +17,13 @@ makedocs(;
     sitename="NaturalIsotopeCorrection.jl",
     format = Documenter.HTML(
         ansicolor = true,
-        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/dev/",
+        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/stable/",
     ),
     linkcheck = false,
     pages=[
         #"Examples" => "examples.md",
         "Background" => "background.md",
-        "Referances" => "index.md",
+        "Referance" => "index.md",
     ],
 )
 
