@@ -22,7 +22,7 @@ withenv("COLUMNS" => 150) do
         ),
         sitename = "NaturalIsotopeCorrection.jl",
         linkcheck = false,
-        pages = ["Background" => "background.md", "Reference" => "index.md"; example_mds],
+        pages = [["Background" => "background.md", "Reference" => "index.md"];example_mds],
     )
 end
 
