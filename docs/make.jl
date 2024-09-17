@@ -1,34 +1,33 @@
 using Documenter, Literate, NaturalIsotopeCorrection
 
-#DocMeta.setdocmeta!(NaturalIsotopeCorrection, :DocTestSetup, :(using NaturalIsotopeCorrection); recursive=true)
+examples = sort(filter(x -> endswith(x, ".jl"), readdir(joinpath(@__DIR__, "src"), join = true)))
 
-#=
-Literate.markdown(
-    "examples.jl",
-    joinpath(@__DIR__, "src"),
-    repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
-)
-=#
+for example in examples
+    Literate.markdown(
+        example,
+        joinpath(@__DIR__, "src"),
+        repo_root_url = "https://github.com/vm-vh/NaturalIsotopeCorrection.jl/blob/main",
+    )
+end
 
-makedocs(;
-    modules=[NaturalIsotopeCorrection],
-    clean = false,
-    authors="Vincent M. von Häfen",
-    sitename="NaturalIsotopeCorrection.jl",
-    format = Documenter.HTML(
-        ansicolor = true,
-        canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/dev/",
-    ),
-    linkcheck = false,
-    pages=[
-        #"Examples" => "examples.md",
-        "Background" => "background.md",
-        "Referance" => "index.md",
-    ],
-)
+example_mds = first.(splitext.(basename.(examples))) .* ".md"
+
+withenv("COLUMNS" => 150) do
+    makedocs(
+        modules = [NaturalIsotopeCorrection],
+        clean = false,
+        format = Documenter.HTML(
+            ansicolor = true,
+            canonical="https://vm-vh.github.io/NaturalIsotopeCorrection.jl/dev/",
+        ),
+        sitename = "NaturalIsotopeCorrection.jl",
+        linkcheck = false,
+        pages = ["Background" => "background.md", "Reference" => "index.md"; example_mds],
+    )
+end
 
 deploydocs(
-    repo = "github.com/vm-vh/NaturalIsotopeCorrection.jl.git",
+    repo = "github.com/COBREXA/NaturalIsotopeCorrection.jl.git",
     target = "build",
     branch = "gh-pages",
     push_preview = false,
