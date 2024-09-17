@@ -27,7 +27,7 @@ withenv("COLUMNS" => 150) do
 end
 
 deploydocs(
-    repo = "github.com/COBREXA/NaturalIsotopeCorrection.jl.git",
+    repo = "github.com/vm-vh/NaturalIsotopeCorrection.jl.git",
     target = "build",
     branch = "gh-pages",
     push_preview = false,
