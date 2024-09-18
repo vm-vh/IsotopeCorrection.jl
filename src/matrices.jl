@@ -1,5 +1,5 @@
 """
-    _standard_element_MID(isotopes, element, N)
+$(TYPEDSIGNATURES)
 
 Outputs the classic standard mass isotopomer distribution (MID) for a fragment 
     with N atoms of the given element, using combinatorial probabilities.
@@ -11,7 +11,7 @@ Not to be used for atoms labeled through an isotope tracer experiment, e.g.
 - `element`: the element the standard MID should be computed for.
 - `N::Int`: the number atoms of the given element.
 """
-function _standard_element_MID(isotopes::Dict, element, N::Int)
+function standard_element_MID(isotopes::Dict, element, N::Int)
     # function to calculate a multinomial coefficient, n should be a number and k a vector
     multinomial_coef(n, k) = factorial(Int(n)) / cumprod(factorial.(Int.(k)))[end]
 
@@ -53,7 +53,7 @@ end
 
 
 """
-    element_CM(element, N)
+$(TYPEDSIGNATURES)
 
 Outputs the correction matrix for a fragment with N atoms of the given element.
 All correction matricies will be l+1 x l+1 with l being the total number of possibly labeled atoms.
@@ -67,14 +67,7 @@ All correction matricies will be l+1 x l+1 with l being the total number of poss
 function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0)
     # TODO: change l to not keyword arg and test if N == l for labeled C
     # dictionary of common natural isotope abundances
-    isotope_NAs = Dict(
-        "H" => Dict(1 => 0.999885, 2 => 0.000115),
-        "C" => Dict(1 => 0.9893, 2 => 0.0107),
-        "N" => Dict(1 => 0.99632, 2 => 0.00368),
-        "O" => Dict(1 => 0.99757, 2 => 0.00038, 3 => 0.00205),
-        "S" => Dict(1 => 0.9493, 2 => 0.0076, 3 => 0.0429, 4 => 0.0002),
-        "Si" => Dict(1 => 0.922297, 2 => 0.046832, 3 => 0.030872),
-    )
+
     # labeled C
     if element == "LabC"
         CM = Matrix{Float64}(undef, N + 1, 0)
@@ -92,7 +85,7 @@ function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0)
     # unlabeled C and all other elements
     elseif l >= 0
         CM = Matrix{Float64}(undef, l + 1, 0)
-        standard_0 = vcat(_standard_element_MID(isotope_NAs, element, N), zeros(Int64, 1, l)')
+        standard_0 = vcat(standard_element_MID(isotope_NAs, element, N), zeros(Int64, 1, l)')
         for j = 0:l
             CM = hcat(CM, circshift(standard_0, j)[1:l+1])
         end
@@ -101,7 +94,7 @@ function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0)
 end
 
 """
-    fragment_CM(formula)
+$(TYPEDSIGNATURES)
 
 Outputs the full correction matrix for a fragment.
 The correction matricies will be l+1 x l+1 with l being the total number of possibly labeled atoms.
