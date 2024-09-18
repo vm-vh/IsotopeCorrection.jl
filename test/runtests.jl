@@ -2,7 +2,9 @@ using NaturalIsotopeCorrection
 using Test
 
 @testset "NaturalIsotopeCorrection.jl" begin
-    include("../docs/src/examples.jl")
+    @testset "Examples" begin
+        include("../docs/src/examples.jl")
+    end
 
     #=
     pyruvate = "C3H3O3LabC3"

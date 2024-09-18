@@ -20,6 +20,7 @@ MID = response_vec ./ sum(response_vec)
 # Here we are assuming that the tracer used for this experiment had an 80% purity.
 corr_response, corr_MID, mean_enrichment, residuum = isotope_correction(response_vec, ala_m57; tracer_purity = 0.8)
 
+using Test
 @test corr_response ≈ [3.7494356377578774e6, 1.582246275076472e6, 3.110758584864337e6, 392021.5450371306]
 @test corr_MID ≈ [0.42441018135800024, 0.17909933478943207, 0.3521163563572243, 0.04437412749534335]
 @test mean_enrichment ≈ 0.5041136074974777
@@ -27,7 +28,7 @@ corr_response, corr_MID, mean_enrichment, residuum = isotope_correction(response
 
 # The optimization can also be turned off, though this isn't recommended as the optimization
 # prevents negative values in the corrected response.
-corr_response, corr_MID, mean_enrichment = isotope_correction(response_vec, pyruvate; tracer_purity = 0.8, optimization = false)
+corr_response, corr_MID, mean_enrichment = isotope_correction(response_vec, ala_m57; tracer_purity = 0.8, optimization = false)
 @test corr_response ≈ [2.788815753935856e6, 1.7402842780064365e6, 2.8703208164970432e6, 961526.0409580052]
 @test corr_MID ≈ [0.333552621590313, 0.20814440051201863, 0.3433009268527882, 0.11500205104488019]
 @test mean_enrichment ≈ 0.5599381018380588
@@ -57,7 +58,7 @@ fig
 
 
 # ### Example 2
-using CSV, DataFrames, DataFramesMeta
+using DataFrames, DataFramesMeta
 
 #=
 For this example we will make a very simple DataFrame with 2 samples for each of which
@@ -113,7 +114,8 @@ df_corrected_MIDs = @transform(gdfs_corrected,
 ]
 
 # Finally, the finished DataFrame can be saved.
-CSV.write("Corrected_MIDs.csv", df_corrected_MIDs)
+# using CSV
+# CSV.write("Corrected_MIDs.csv", df_corrected_MIDs)
 
 
 # To visualize what isotope_correction() does we can plot the MIDs before and after correction.
@@ -146,6 +148,6 @@ myplot(gdfs[3], fig[2,1], colors[1:5])
 myplot(gdfs[4], fig[2,2], colors)
 
 Legend(fig[1:2,3], group_color, labels, framevisible = false)
-fig
 
-#save("Methionine_MIDs.png", fig)
+fig
+# save("Methionine_MIDs.png", fig)
