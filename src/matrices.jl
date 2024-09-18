@@ -64,7 +64,7 @@ All correction matricies will be l+1 x l+1 with l being the total number of poss
 - `l::Int`: total number of possibly labeled atoms, default is -1, only needed for unlabeled atoms.
 - `tracer_purity`: purity of the tracer, default is 1 (100%).
 """
-function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0)
+function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0, isotope_Dict = isotope_NAs)
     # TODO: change l to not keyword arg and test if N == l for labeled C
     # dictionary of common natural isotope abundances
 
@@ -72,7 +72,7 @@ function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0)
     if element == "LabC"
         CM = Matrix{Float64}(undef, N + 1, 0)
         for n = 0:N
-            MID = [binomial(N - n, i) * (isotope_NAs["C"][1]^(N - n - i) * isotope_NAs["C"][2]^i) for i = 0:(N-n)]
+            MID = [binomial(N - n, i) * (isotope_Dict["C"][1]^(N - n - i) * isotope_Dict["C"][2]^i) for i = 0:(N-n)]
             n_result = vcat(zeros(Int64, 1, n)', MID)
 
             # tracer purity
@@ -85,7 +85,7 @@ function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0)
     # unlabeled C and all other elements
     elseif l >= 0
         CM = Matrix{Float64}(undef, l + 1, 0)
-        standard_0 = vcat(standard_element_MID(isotope_NAs, element, N), zeros(Int64, 1, l)')
+        standard_0 = vcat(standard_element_MID(isotope_Dict, element, N), zeros(Int64, 1, l)')
         for j = 0:l
             CM = hcat(CM, circshift(standard_0, j)[1:l+1])
         end

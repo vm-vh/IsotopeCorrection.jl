@@ -1,3 +1,4 @@
+# dictionary of common natural isotope abundances
 const isotope_NAs = Dict(
     "H" => Dict(1 => 0.999885, 2 => 0.000115),
     "C" => Dict(1 => 0.9893, 2 => 0.0107),
