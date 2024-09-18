@@ -2,8 +2,9 @@ using NaturalIsotopeCorrection
 using Test
 
 @testset "NaturalIsotopeCorrection.jl" begin
-    #include("../docs/src/examples.jl")
+    include("../docs/src/examples.jl")
 
+    #=
     pyruvate = "C3H3O3LabC3"
     response_vec = [3500000, 1000000, 3500000, 800000]
 
@@ -31,4 +32,5 @@ using Test
     @test corr_response ≈ [2.788815753935856e6, 1.7402842780064365e6, 2.8703208164970432e6, 961526.0409580052]
     @test corr_MID ≈ [0.333552621590313, 0.20814440051201863, 0.3433009268527882, 0.11500205104488019]
     @test mean_enrichment ≈ 0.5599381018380588
+    =#
 end
