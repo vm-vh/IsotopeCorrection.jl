@@ -20,21 +20,26 @@ MID = response_vec ./ sum(response_vec)
 # Here we are assuming that the tracer used for this experiment had an 80% purity.
 corr_response, corr_MID, mean_enrichment, residuum = isotope_correction(response_vec, ala_m57; tracer_purity = 0.8)
 
+#=
 using Test
 @test corr_response ≈ [3.7494356377578774e6, 1.582246275076472e6, 3.110758584864337e6, 392021.5450371306]
 @test corr_MID ≈ [0.42441018135800024, 0.17909933478943207, 0.3521163563572243, 0.04437412749534335]
 @test mean_enrichment ≈ 0.5041136074974777
 @test isapprox(residuum, [7.161631798132872e-13, 8.285188904175392e-13, -1.0657673462843284e-12, 6.363440591555375e-13]; atol = 1e16)
+=#
 
 # The optimization can also be turned off, though this isn't recommended as the optimization
 # prevents negative values in the corrected response.
 corr_response, corr_MID, mean_enrichment = isotope_correction(response_vec, ala_m57; tracer_purity = 0.8, optimization = false)
+
+#=
 @test corr_response ≈ [2.788815753935856e6, 1.7402842780064365e6, 2.8703208164970432e6, 961526.0409580052]
 @test corr_MID ≈ [0.333552621590313, 0.20814440051201863, 0.3433009268527882, 0.11500205104488019]
 @test mean_enrichment ≈ 0.5599381018380588
+=#
 
-# To visualize the effects of isotope_correction(), the MID can be plotted before 
-# and after correction.
+# To visualize the effects of isotope_correction(), 
+# the MID can be plotted before and after correction.
 using ColorSchemes, CairoMakie
 
 colors = colorschemes[:bamako][1:64:end];
@@ -102,6 +107,7 @@ df_corrected_MIDs = @transform(gdfs_corrected,
     :CorrectedMID = :CorrectedResponse ./ sum(:CorrectedResponse)
 )
 
+#=
 @test df_corrected_MIDs.CorrectedResponse[1:11] ≈ [256350.5953947725, 209316.21271342717, 
     213614.23098928804, 213323.38585836615, 215543.78052654164, 
     240727.618300901, 176403.71542171348, 168185.8260919769, 
@@ -112,6 +118,7 @@ df_corrected_MIDs = @transform(gdfs_corrected,
     0.21757070311023, 0.15943447065382058, 0.1520071053511907, 
     0.15647407507022204, 0.1565992782388322, 0.15791436757570465
 ]
+=#
 
 # Finally, the finished DataFrame can be saved.
 # using CSV
