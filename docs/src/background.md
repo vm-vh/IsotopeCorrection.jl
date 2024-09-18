@@ -18,7 +18,7 @@ as their presence interferes with the signals obtained from the isotopically lab
 
 When conducting isotope labeling experiments, it is critical to distinguish between isotopes introduced into 
 the system experimentally and those naturally present at the start of the experiment. The natural abundance (NA) 
-of stable isotopes can falsify the results of isotope labeling studies if not corrected appropriately. [^1] 
+of stable isotopes can falsify the results of isotope labeling studies if not corrected appropriately.<sup>1</sup>
 For example, carbon naturally exists as  approximately 98.93% <sup>12</sup>C and 1.07% <sup>13</sup>C. 
 Ignoring the NA of <sup>13</sup>C could lead to errors in the interpretation of metabolic fluxes, especially 
 when using gas chromatography mass spectrometry (GCMS) as the derivatization necessary for gas chromatography 
@@ -31,13 +31,13 @@ experimental tracers.
 This package implements this “skewed” correction method, using multinomial probability theory to account 
 for the non-linear distribution of naturally occurring isotopes. A least-squares optimization function ensures 
 that fractional abundances remain positive after correction is used and corrects for noise, 
-similarly to IsoCor. [^2] In addition to correcting for the natural abundances of all isotopes, correction for 
+similarly to IsoCor.<sup>2</sup> In addition to correcting for the natural abundances of all isotopes, correction for 
 the purity of the tracer substrate is also implemented.
 
-[^1]	Midani, F. S.; Wynn, M. L.; Schnell, S. The Importance of Accurately Correcting for the Natural Abundance 
+1.	Midani, F. S.; Wynn, M. L.; Schnell, S. The Importance of Accurately Correcting for the Natural Abundance 
 of Stable Isotopes. Anal. Biochem. 2017, 520, 27–43. https://doi.org/10.1016/j.ab.2016.12.011.
 
-[^2]	Millard, P.; Letisse, F.; Sokol, S.; Portais, J.-C. IsoCor: Correcting MS Data in Isotope Labeling 
+2.	Millard, P.; Letisse, F.; Sokol, S.; Portais, J.-C. IsoCor: Correcting MS Data in Isotope Labeling 
 Experiments. Bioinformatics 2012, 28 (9), 1294–1296. https://doi.org/10.1093/bioinformatics/bts127.
 
 
