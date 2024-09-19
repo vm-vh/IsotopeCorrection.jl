@@ -12,7 +12,7 @@ which the uncorrected mass isotopomer distribution (MID) can be calculated.
 #md #     labeled carbon atoms in the fragment while the number behind "C" is the total number of 
 #md #     carbon atoms, both from the alanine and from any derivative groups. 
 
-using NaturalIsotopeCorrection
+using IsotopeCorrection
 
 ala_m57 = "C11H26N1O2Si2LabC3"
 response_vec = [2500000, 2000000, 2500000, 800000]
@@ -81,7 +81,7 @@ sample 2 is simply a random vector.
 #md #     labeled carbon atoms in the fragment while the number behind "C" is the total number of 
 #md #     carbon atoms, both from the methionine and from any derivative groups. 
 
-using NaturalIsotopeCorrection
+using IsotopeCorrection
 using DataFrames, DataFramesMeta
 
 df = DataFrame(

@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = NaturalIsotopeCorrection
+CurrentModule = IsotopeCorrection
 ```
 
-# NaturalIsotopeCorrection
+# IsotopeCorrection
 
-Documentation for [NaturalIsotopeCorrection](https://github.com/vm-vh/NaturalIsotopeCorrection.jl).
+Documentation for [IsotopeCorrection](https://github.com/vm-vh/IsotopeCorrection.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [NaturalIsotopeCorrection]
+Modules = [IsotopeCorrection]
 ```

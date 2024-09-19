@@ -1,10 +1,10 @@
 ```@meta
-CurrentModule = NaturalIsotopeCorrection
+CurrentModule = IsotopeCorrection
 ```
 
 # Background
 
-Documentation for [NaturalIsotopeCorrection](https://github.com/vm-vh/NaturalIsotopeCorrection.jl).
+Documentation for [IsotopeCorrection](https://github.com/vm-vh/IsotopeCorrection.jl).
 
 
 Metabolic flux analysis (MFA) is a powerful method used to assess intracellular metabolic activity by estimating 

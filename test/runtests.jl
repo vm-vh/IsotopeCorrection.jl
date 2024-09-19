@@ -1,7 +1,7 @@
-using NaturalIsotopeCorrection
+using IsotopeCorrection
 using Test, DataFrames, DataFramesMeta
 
-@testset "NaturalIsotopeCorrection.jl" begin
+@testset "IsotopeCorrection.jl" begin
     # include("../docs/src/examples.jl")
 
     ala_m57 = "C11H26N1O2Si2LabC3"

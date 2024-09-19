@@ -1,4 +1,4 @@
-name = "NaturalIsotopeCorrection"
+name = "IsotopeCorrection"
 uuid = "ada07ce9-609d-4543-9e41-2cdc42bc1f8f"
 authors = ["Vincent M. von Häfen"]
 version = "1.0.0-DEV"
