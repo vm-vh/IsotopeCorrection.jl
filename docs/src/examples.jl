@@ -1,11 +1,10 @@
 # # Examples
 
-# ### Example 1
+# ## Example 1: Basic Usage
 #=
 In the first example we will correct a measured response vector of the M-57 alanine fragment.
 First the chemical formula of the fragment and the response vector have to be defined, after 
 which the uncorrected mass isotopomer distribution (MID) can be calculated.
-the number behind
 =#
 
 #md # !!! note "Labeled Carbon"
@@ -19,29 +18,29 @@ ala_m57 = "C11H26N1O2Si2LabC3"
 response_vec = [2500000, 2000000, 2500000, 800000]
 MID = response_vec ./ sum(response_vec)
 
-# The function isotope_correction() can be directly used on a single measurement vector.
+# The function `isotope_correction()`` can be directly used on a single measurement vector.
 # Here we are assuming that the tracer used for this experiment had an 80% purity.
 corr_resp, corr_MID, mean_enrich, residuum = isotope_correction(response_vec, 
                                                                 ala_m57; 
                                                                 tracer_purity = 0.8)
 
-# corr_resp is the corrected measurement vector,
+# `corr_resp`` is the corrected measurement vector,
 corr_resp
 
-# corr_MID is the MID of the corrected measurement vector,
+# `corr_MID` is the MID of the corrected measurement vector,
 corr_MID
 
-# mean_enrich is the mean enrichment of the corrected measurement vector,
+# `mean_enrich` is the mean enrichment of the corrected measurement vector,
 mean_enrich
 
-# and residuum is the residals of the optimization.
+# and `residuum` is the residals of the optimization.
 residuum
 
-# The optimization can also be turned off, using the 'optimization = false' keyword argument,
+# The optimization can also be turned off, using the `optimization = false` keyword argument,
 # though this isn't recommended as the optimization prevents negative values in the corrected response.
 
 
-# To visualize the effects of 'isotope_correction()', 
+# To visualize the effects of `isotope_correction()`, 
 # the MID can be plotted before and after correction.
 using ColorSchemes, CairoMakie
 
@@ -66,7 +65,7 @@ fig
 
 
 
-# ### Example 2
+# ## Example 2: Usage with a DataFrame
 
 #=
 For this example we will make a very simple DataFrame with 2 samples for each of which
@@ -101,7 +100,7 @@ df = DataFrame(
 
 # Using DataFramesMeta the DataFrame can be grouped based on the sample ID and amino acid 
 # fragment and each group corrected using the main function of this package: 
-# 'isotope_correction()'
+# `isotope_correction()`
 
 # Since this function outputs the corrected response, MID, mean enrichment and residuum,
 # we index into element 1 to recieve only the corrected response.
@@ -120,7 +119,7 @@ select(df_corrected_MIDs, :Sample, :AminoAcidFragment, :Response, :CorrectedResp
 ## CSV.write("Corrected_MIDs.csv", df_corrected_MIDs)
 
 
-# To visualize what isotope_correction() does we can plot the MIDs before and after correction.
+# To visualize what `isotope_correction()` does we can plot the MIDs before and after correction.
 using ColorSchemes, CairoMakie
 
 gdfs = @groupby(df_corrected_MIDs, :Sample, :AminoAcidFragment)
