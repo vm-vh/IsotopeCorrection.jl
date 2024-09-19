@@ -8,10 +8,10 @@ which the uncorrected mass isotopomer distribution (MID) can be calculated.
 the number behind
 =#
 
-#md # !!! note "Note"
-#md # The number after "LabC" in the chemical formula represents the number of possibly
-#md # labeled carbon atoms in the fragment while the number behind "C" is the total number of 
-#md # carbon atoms, both from the alanine and from any derivative groups. 
+#md # !!! note "Labeled Carbon"
+#md #     The number after "LabC" in the chemical formula represents the number of possibly
+#md #     labeled carbon atoms in the fragment while the number behind "C" is the total number of 
+#md #     carbon atoms, both from the alanine and from any derivative groups. 
 
 using NaturalIsotopeCorrection
 
@@ -31,20 +31,17 @@ corr_resp
 # corr_MID is the MID of the corrected measurement vector,
 corr_MID
 
-# mean_enrich is the mean enrichment corrected measurement vector,
+# mean_enrich is the mean enrichment of the corrected measurement vector,
 mean_enrich
 
 # and residuum is the residals of the optimization.
 residuum
 
-# The optimization can also be turned off, though this isn't recommended
-# as the optimization prevents negative values in the corrected response.
-corr_resp, corr_MID, mean_enrich = isotope_correction(response_vec, 
-                                                      ala_m57; 
-                                                      tracer_purity = 0.8, 
-                                                      optimization = false);
+# The optimization can also be turned off, using the 'optimization = false' keyword argument,
+# though this isn't recommended as the optimization prevents negative values in the corrected response.
 
-# To visualize the effects of '''isotope_correction()''', 
+
+# To visualize the effects of 'isotope_correction()', 
 # the MID can be plotted before and after correction.
 using ColorSchemes, CairoMakie
 
@@ -80,10 +77,10 @@ all possible m+ being recorded with equal frequency while the measured response 
 sample 2 is simply a random vector.
 =#
 
-#md # !!! note "Note"
-#md # The number after "LabC" in the chemical formula represents the number of possibly
-#md # labeled carbon atoms in the fragment while the number behind "C" is the total number of 
-#md # carbon atoms, both from the methionine and from any derivative groups. 
+#md # !!! note "Labeled Carbon"
+#md #     The number after "LabC" in the chemical formula represents the number of possibly
+#md #     labeled carbon atoms in the fragment while the number behind "C" is the total number of 
+#md #     carbon atoms, both from the methionine and from any derivative groups. 
 
 using NaturalIsotopeCorrection
 using DataFrames, DataFramesMeta
@@ -98,13 +95,14 @@ df = DataFrame(
 
 ## Of course normally the first step would be to read in (and prepare) real data,
 ## using CSV.jl or XLSX.jl, for example.
-##
+
 ## using CSV
 ## df = CSV.read("DATA.csv", DataFrame)
 
 # Using DataFramesMeta the DataFrame can be grouped based on the sample ID and amino acid 
 # fragment and each group corrected using the main function of this package: 
-# isotope_correction()
+# 'isotope_correction()'
+
 # Since this function outputs the corrected response, MID, mean enrichment and residuum,
 # we index into element 1 to recieve only the corrected response.
 # Additionally we are assuming that the tracer used for this experiment had a 99% purity.
@@ -118,7 +116,7 @@ df_corrected_MIDs = @transform(gdfs_corrected,
     :MID = :Response ./ sum(:Response),
     :CorrectedMID = :CorrectedResponse ./ sum(:CorrectedResponse))
 select(df_corrected_MIDs, :Sample, :AminoAcidFragment, :Response, :CorrectedResponse, :MID, :CorrectedMID)
-## And of course the finished DataFrame can be saved.
+## And of course the finished DataFrame can then be saved.
 ## CSV.write("Corrected_MIDs.csv", df_corrected_MIDs)
 
 
