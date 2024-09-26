@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="docs/src/assets/logo.svg?maxAge=0" width="80%">
+</div>
+
 # IsotopeCorrection.jl
 
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://vm-vh.github.io/IsotopeCorrection.jl/dev/)
