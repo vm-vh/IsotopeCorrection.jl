@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="docs/src/assets/logo.svg?maxAge=0" width="80%">
+    <img src="docs/src/assets/logo_text_dark.svg?maxAge=0" width="40%">
 </div>
 
 # IsotopeCorrection.jl
