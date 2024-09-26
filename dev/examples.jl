@@ -90,7 +90,7 @@ df = DataFrame(
     Molecule = repeat(cat(repeat(["C10H24N1S1Si1LabC4"], 5), repeat(["C13H30N1O2S1Si2LabC5"], 6), dims = 1), 2),
     MZ0 = repeat(cat(repeat([218], 5), repeat([320], 6), dims = 1), 2),
     Mplus = repeat(cat(repeat(0:4, 1), repeat(0:5, 1), dims = 1), 2),
-    Response = cat(repeat([1e6/5], 5), repeat([1e6/6], 6), rand(0:1e6, 11), dims = 1))
+    Response = cat(repeat([3e6/5], 5), repeat([3e6/6], 6), rand(0:3e6, 11), dims = 1))
 
 ## Of course normally the first step would be to read in (and prepare) real data,
 ## using CSV.jl or XLSX.jl, for example.
