@@ -1,120 +1,71 @@
 """
 $(TYPEDSIGNATURES)
 
-Outputs the classic standard mass isotopomer distribution (MID) for a fragment 
-    with N atoms of the given element, using combinatorial probabilities.
-Not to be used for atoms labeled through an isotope tracer experiment, e.g. 
-    backbone carbon atoms in a 13C tracer experiment.
+Outputs a tuple containing two elements:
+- The mass distribution vector (MDV) of a fragment, calculated by convolving the vectors of 
+    natural isotope abundances n times for each element with n atoms.
+- The number of possible isotopologues (which is equal to the number of possibly labeled carbon atoms + 1).
 
 # Arguments
-- `isotopes::Dict`: dictionary containing the natural abundances of the relevant isotopes.
-- `element`: the element the standard MID should be computed for.
-- `N::Int`: the number atoms of the given element.
+- `formula`: full chemical formula of the fragment to be corrected e.g. "C3H3O3LabC3" (or "C3H3O3" in conjunction with label)
+- `label`: labeled element and amount e.g. "C3", can be ignored if the formula contains LabC
+- `isotopes`: dictionary containing the natural isotope abundances of elements, default is isotope_NAs
 """
-function standard_element_MID(isotopes::Dict, element, N::Int)
-    # function to calculate a multinomial coefficient, n should be a number and k a vector
-    multinomial_coef(n, k) = factorial(Int(n)) / cumprod(factorial.(Int.(k)))[end]
+function calculate_MDV(formula::String, label::String, isotopes::Dict)::Tuple{Vector{Float64}, Int}
+    correction_formula, n_isotopologues = fragment(formula, label)
 
-    result = [] # initialize results object
-
-    # for H, N or unlabeled C
-    if element == "H" || element == "N" || element == "C"
-        result = [binomial(N, i) * (isotopes[element][1]^(N - i) * isotopes[element][2]^i) for i = 0:(N)]
-
-    else
-        for i = 0:N
-            push!(result, 0)
-            for j = 0:N, k = 0:N
-                # for O & Si
-                if (element == "O" || element == "Si") && k >= 0 && i == j + 2 * k
-                    c = multinomial_coef(N, [j, k, N - j - k])
-                    ip = isotopes[element][1]^(N - j - k) *
-                         isotopes[element][2]^j *
-                         isotopes[element][3]^k
-                    result[i+1] += c * ip
-                else
-                    for z = 0:N
-                        # for S
-                        if element == "S" && k >= 0 && i == j + 2 * k + 4 * z
-                            c = multinomial_coef(N, [j, k, z, N - j - k - z])
-                            ip = isotopes[element][1]^(N - j - k - z) *
-                                 isotopes[element][2]^j *
-                                 isotopes[element][3]^k *
-                                 isotopes[element][4]^z
-                            result[i+1] += c * ip
-                        end
-                    end
-                end
-            end
+    result = [1.0]  # mass are normalized to 1
+    for (element, n) in correction_formula
+        for _ in 1:n
+            result = conv(result, isotopes[element])
         end
     end
-    return result
-end
-
-
-"""
-$(TYPEDSIGNATURES)
-
-Outputs the correction matrix for a fragment with N atoms of the given element.
-All correction matricies will be l+1 x l+1 with l being the total number of possibly labeled atoms.
-
-# Arguments
-- `element`: the element the standard MID should be computed for.
-- `N::Int`: the number atoms of the given element.
-- `l::Int`: total number of possibly labeled atoms, default is -1, only needed for unlabeled atoms.
-- `tracer_purity`: purity of the tracer, default is 1 (100%).
-"""
-function element_CM(element, N::Int; l::Int = -1, tracer_purity = 1.0, isotope_Dict = isotope_NAs)
-    # TODO: change l to not keyword arg and test if N == l for labeled C
-    # dictionary of common natural isotope abundances
-
-    # labeled C
-    if element == "LabC"
-        CM = Matrix{Float64}(undef, N + 1, 0)
-        for n = 0:N
-            MID = [binomial(N - n, i) * (isotope_Dict["C"][1]^(N - n - i) * isotope_Dict["C"][2]^i) for i = 0:(N-n)]
-            n_result = vcat(zeros(Int64, 1, n)', MID)
-
-            # tracer purity
-            tracer = [1.0 - tracer_purity, tracer_purity]
-            n_result = conv(n_result, tracer)
-
-            CM = hcat(CM, n_result[2:end])
-        end
-
-    # unlabeled C and all other elements
-    elseif l >= 0
-        CM = Matrix{Float64}(undef, l + 1, 0)
-        standard_0 = vcat(standard_element_MID(isotope_Dict, element, N), zeros(Int64, 1, l)')
-        for j = 0:l
-            CM = hcat(CM, circshift(standard_0, j)[1:l+1])
-        end
-    end
-    return Float64.(CM)
+    return result, n_isotopologues
 end
 
 """
 $(TYPEDSIGNATURES)
 
-Outputs the full correction matrix for a fragment.
-The correction matricies will be l+1 x l+1 with l being the total number of possibly labeled atoms.
+Outputs the correction matrix constructed by iterative convolution of the correction vector for each column.
 
 # Arguments
-- `formula`: chemical formula of the fragment to be corrected.
-- `tracer_purity`: purity of the tracer, default is 1 (100%).
+- `formula`: full chemical formula of the fragment to be corrected e.g. "C3H3O3LabC3" (or "C3H3O3" in conjunction with label)
+- `label`: labeled element and amount e.g. "C3", can be ignored if the formula contains LabC
+- `isotopes`: dictionary containing the natural isotope abundances of elements, default is isotope_NAs
+- `tracer_purity::Float64`: purity of the tracer, default is 1.0 (corresponding to 100%)
 """
-function fragment_CM(formula; tracer_purity = 1.0)
-    # create a dictionary from the chemical formula of the element
-    elements = split(formula, r"[0-9]", keepempty = false)
-    amounts = split(formula, r"[aA-zZ]", keepempty = false)
-    fragment_dict = Dict(elements .=> map(x -> parse(Int, x), amounts))
-    fragment_dict["C"] = fragment_dict["C"] - fragment_dict["LabC"]
+function CM_conv(formula::String, label::String, isotopes::Dict, tracer_purity::Float64)::Matrix{Float64}
+    tracer_element = "C" # turn into arg once other tracers are implemented
+    idx_tracer = 1 # turn into arg once other tracers are implemented
 
-    # multiplies the individual element CMs to create the full CM
-    full_CM = 1
-    for (key, item) in fragment_dict
-        full_CM *= element_CM(key, item, l = fragment_dict["LabC"], tracer_purity = tracer_purity)
+    tracer_purity > 1.0 ? throw(ArgumentError("The tracer purity cannot exceed 1.0 (corresponding to 100%).")) : nothing
+    tracer_purity = [1-tracer_purity, tracer_purity]
+    correction_vector, n_isotopologues = calculate_MDV(formula, label, isotopes)
+
+    # create correction matrix
+    correction_matrix = zeros((n_isotopologues, n_isotopologues))
+    # Peaks to keep after convolution
+    mask = [n * idx_tracer for n in 1:n_isotopologues]
+
+    # For each atom with the same element as the tracer
+    for i in 1:n_isotopologues
+        column = correction_vector
+        # Correction of tracer purity
+        for _ in 1:i-1
+            column = conv(column, tracer_purity)
+        end
+
+        # Correct natural abundance of tracer element
+        for _ in 0:(n_isotopologues-i-1)
+            column = conv(column, isotopes[tracer_element])
+        end
+
+        if length(column) < maximum(mask)
+            column += [0.0] * (maximum(mask) - length(column))
+        end
+
+        column = [column[j] for j in mask]
+        correction_matrix[:, i] = column
     end
-    return full_CM
+    return correction_matrix
 end
-

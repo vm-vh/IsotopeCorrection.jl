@@ -10,8 +10,9 @@ using LBFGSB
 include("consts.jl")
 include("correction.jl")
 include("matrices.jl")
-include("read.jl")
-include("types.jl")
+include("compounds.jl")
+
+# include("read.jl")
 
 export isotope_correction
 
