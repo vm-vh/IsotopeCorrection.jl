@@ -20,6 +20,7 @@ using IsotopeCorrection
 response_vec = [3500000, 1000000, 3500000, 800000]
 
 # define the chemical formula of the fragment, e.g. pyruvate
+# include all atoms introduced through derivatization if appliable
 pyruvate_formula = "C3H3O3"
 
 # define the element and number of possibly labeled atoms due to the tracer
@@ -32,6 +33,6 @@ corrected_response, corrected_MID, mean_enrichment, residuum = isotope_correctio
                                                                                   label = pyruvate_label,
                                                                                   tracer_purity = 0.99)
 
-# alternatively, pyruvate_formula could also be defined as "C3H3O3LabC3"
+# alternatively, pyruvate_formula could also be defined as "C3H3O3LabC3" for compatibility with existing libraries
 # in this case the label keyword should be left blank
 ```
