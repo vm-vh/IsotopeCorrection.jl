@@ -1,7 +1,7 @@
 name = "IsotopeCorrection"
 uuid = "ada07ce9-609d-4543-9e41-2cdc42bc1f8f"
 authors = ["Vincent M. von Häfen"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 DSP = "717857b8-e6f2-59f4-9121-6e50c889abd2"
